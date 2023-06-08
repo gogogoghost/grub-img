@@ -13,8 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - run: echo "Building image..."
+      - run: sudo ${{ github.workspace }}/make.sh 32
       - run: sudo ${{ github.workspace }}/make.sh 64
       - run: sudo ${{ github.workspace }}/make.sh 128
+      - run: sudo ${{ github.workspace }}/make.sh 256
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "*.gz"
