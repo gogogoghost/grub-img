@@ -14,7 +14,7 @@ This repo create a disk image with grub.
 
 ### How to use
 ```bash
-version=1.0
+version=v1.0
 # 64/128 support now
 size=64
 
