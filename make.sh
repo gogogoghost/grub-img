@@ -30,6 +30,9 @@ mount ${loDev}p1 boot
 # install grub
 grub-install --target=i386-pc --boot-directory=boot $loDev
 
+# delete useless files
+rm -rf boot/grub/fonts
+
 # umount
 umount boot
 losetup -d $loDev
