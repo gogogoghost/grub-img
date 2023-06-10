@@ -12,43 +12,46 @@ This has some limitations on executing environment:
 
 This repo create a disk image with grub.
 
-### How to use
+### Image
+
+There are several size prebuild images at [releases page](https://github.com/gogogoghost/grub-img/releases). Choose a image size you need.
+
+The image contains a vfat partion with grub installed. Grub already used about 2M space, you can use left space.
+
+### Usage
+
+#### With helper
+
+There is a simple script for alpine linux installation.
+
 ```bash
-version=v1.2
-# 32/64/128/256 support now
-size=64
+#!/bin/sh
 
-# enter RAM
-mkdir tmp
-mount -t tmpfs tmpfs -o size=100% tmp
-cd tmp
+set -e
 
-# download image
-wget https://github.com/gogogoghost/grub-img/releases/download/${version}/grub${size}m.img.gz
+mirror="https://dl-cdn.alpinelinux.org/alpine/v3.18"
+baseUrl="$mirror/releases/x86_64/netboot-3.18.0/"
 
-# decompress
-gunzip grub${size}m.img.gz
+setupFiles(){
+    wget "$baseUrl/vmlinuz-virt" -O "$1/vmlinuz-virt"
+    wget "$baseUrl/initramfs-virt" -O "$1/initramfs-virt"
+}
+configGrub(){
+    cat > $1 << EOF
+menuentry 'Alpine Linux' {
+    linux /vmlinuz-virt alpine_repo="$mirror/main" modloop="$baseUrl/modloop-virt" modules="loop,squashfs" initrd="initramfs-virt"
+    initrd /initramfs-virt
+}
+EOF
+}
 
-# mount it
-mkdir boot
-losetup -P /dev/loop0 grub${size}m.img
-mount -t vfat /dev/loop0p1 boot
+wget https://raw.githubusercontent.com/gogogoghost/grub-img/master/helper.sh
+chmod +x helper.sh
 
-# setup files
-wget ${kernelUrl} -o boot/vmlinuz
-wget ${initramfsUrl} -o boot/initramfs
-
-# generate grub.cfg
-echo "${grubContent}" > boot/grub/grub.cfg
-
-# umount
-umount boot
-losetup -d /dev/loop0
-
-# real dd
-dd if=grub${size}m.img of=/dev/sda
-
-# reboot
-sync
-reboot
+# source ./helper.sh [grubImgVersion] [grubImgSize] [targetDevice]
+source ./helper.sh v1.2 64 /dev/sda
 ```
+
+#### Use Image Directly
+
+Download image file and do it yourself.

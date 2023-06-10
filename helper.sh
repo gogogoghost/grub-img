@@ -5,13 +5,13 @@ set -e
 # check
 tSetupFiles="$(type -t setupFiles)"
 if [ $tSetupFiles != function ] && [ $tSetupFiles != "setupFiles" ]; then
-    echo "You have to define setupFiles method before."
-    exit -1;
+    echo "Have to define setupFiles method before."
+    exit;
 fi
 tConfigGrub="$(type -t configGrub)"
 if [ tConfigGrub != function ] && [ $tConfigGrub != "configGrub" ]; then
-    echo "You have to define configGrub method before."
-    exit -1;
+    echo "Have to define configGrub method before."
+    exit;
 fi
 
 grubImgVersion="$1"
@@ -20,15 +20,16 @@ targetDev="$3"
 
 # check
 if [ ! -n "$grubImgVersion" ];then
-	echo "You have to specific grubImgVersion at args 1"
-    exit -1;
+	echo "Have to specific grubImgVersion at arg 1"
+    exit;
 fi
 if [ ! -n "$grubImgSize" ];then
-	echo "You have to specific grubImgSize at args 2"
-    exit -1;
+	echo "Have to specific grubImgSize at arg 2"
+    exit;
 fi
 if [ ! -n "$targetDev" ];then
-    targetDev=$(mount | grep "on / " | cut -d ' ' -f 1 | cut -d p -f 1)
+    echo "Have to specific targetDev at arg 3"
+    exit;
 fi
 
 # enter RAM

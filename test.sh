@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 mirror="https://dl-cdn.alpinelinux.org/alpine/v3.18"
 baseUrl="$mirror/releases/x86_64/netboot-3.18.0/"
 
@@ -16,4 +18,4 @@ menuentry 'Alpine Linux' {
 EOF
 }
 
-source ./helper.sh v1.2 64 /dev/sda
+source ./helper.sh v1.2 64 $1
