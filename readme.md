@@ -37,7 +37,7 @@ setupFiles(){
     wget "$baseUrl/initramfs-virt" -O "$1/initramfs-virt"
 }
 configGrub(){
-    cat > $1 << EOF
+    cat >> $1 << EOF
 menuentry 'Alpine Linux' {
     linux /vmlinuz-virt alpine_repo="$mirror/main" modloop="$baseUrl/modloop-virt" modules="loop,squashfs" initrd="initramfs-virt"
     initrd /initramfs-virt

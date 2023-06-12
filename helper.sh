@@ -55,7 +55,9 @@ mount -t vfat ${loDevice}p1 boot
 setupFiles "$(pwd)/boot"
 
 # generate grub.cfg
-configGrub "$(pwd)/boot/grub/grub.cfg"
+grubFile="$(pwd)/boot/grub/grub.cfg"
+echo "set timeout=3" > $grubFile
+configGrub $grubFile
 
 # umount
 umount boot
