@@ -14,21 +14,17 @@ if [ ! -n "$tConfigGrub" ]; then
     exit;
 fi
 
-grubImgVersion="$1"
-grubImgSize="$2"
-targetDev="$3"
-
 # check
 if [ ! -n "$grubImgVersion" ];then
-	echo "Have to specific grubImgVersion at arg 1"
+    echo "Have to define grubImgVersion first"
     exit;
 fi
 if [ ! -n "$grubImgSize" ];then
-	echo "Have to specific grubImgSize at arg 2"
+    echo "Have to define grubImgSize first"
     exit;
 fi
 if [ ! -n "$targetDev" ];then
-    echo "Have to specific targetDev at arg 3"
+    echo "Have to define targetDev first"
     exit;
 fi
 
