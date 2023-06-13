@@ -3,14 +3,14 @@
 set -e
 
 # check
-tSetupFiles="$(type -t setupFiles)"
-if [ $tSetupFiles != function ] && [ $tSetupFiles != "setupFiles" ]; then
-    echo "Have to define setupFiles method before."
+tSetupFiles="$(type setupFiles|head -n 1|grep function|cat)"
+if [ ! -n "$tSetupFiles" ]; then
+    echo "Have to define setupFiles method first."
     exit;
 fi
-tConfigGrub="$(type -t configGrub)"
-if [ tConfigGrub != function ] && [ $tConfigGrub != "configGrub" ]; then
-    echo "Have to define configGrub method before."
+tConfigGrub="$(type configGrub|head -n 1|grep function|cat)"
+if [ ! -n "$tConfigGrub" ]; then
+    echo "Have to define configGrub method first."
     exit;
 fi
 
