@@ -5,26 +5,26 @@ set -e
 # check
 tSetupFiles="$(type setupFiles|head -n 1|grep function|cat)"
 if [ ! -n "$tSetupFiles" ]; then
-    echo "Have to define setupFiles method first."
+    echo "Define setupFiles method first."
     exit;
 fi
 tConfigGrub="$(type configGrub|head -n 1|grep function|cat)"
 if [ ! -n "$tConfigGrub" ]; then
-    echo "Have to define configGrub method first."
+    echo "Define configGrub method first."
     exit;
 fi
 
 # check
 if [ ! -n "$grubImgVersion" ];then
-    echo "Have to define grubImgVersion first"
+    echo "Define grubImgVersion first"
     exit;
 fi
 if [ ! -n "$grubImgSize" ];then
-    echo "Have to define grubImgSize first"
+    echo "Define grubImgSize first"
     exit;
 fi
 if [ ! -n "$targetDev" ];then
-    echo "Have to define targetDev first"
+    echo "Define targetDev first"
     exit;
 fi
 
@@ -59,7 +59,12 @@ configGrub $grubFile
 umount boot
 losetup -d $loDevice
 
+# remount system to ro
+echo 1 > /proc/sys/kernel/sysrq
+echo u > /proc/sysrq-trigger
+
 # real dd
+echo "writing..."
 dd if=grub${grubImgSize}m.img of=$targetDev
 
 # reboot
